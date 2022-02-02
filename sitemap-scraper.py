@@ -8,6 +8,22 @@ import sys # get args from user
 import re # matching
 import os # for file creation
 from bs4 import BeautifulSoup # for XML parsing
+from sty import fg # cool colors!
+# Placing this at the top of the file to be easily updated by users:
+interesting = ['backup','bak','api','token','key','secret','credentials','mfa','config',
+    'passw','usern','azure','ldap','robots','temp','old','sensitive','priv','dev','test',
+    'staging','donot','server-status','archive','archiva','filesystem','files','camera',
+    'security','footage','secure','topsec','sql','database','mariadb','postgre','sqlite','prod','multifactor',
+    'authori','roles','smb','share','activedir','aws','s3']
+# colors obj:
+color = {
+    'RED': fg(197),
+    'GRN': f"\033[3m{fg(201)} ✔ ",
+    'YLL': fg(226),
+    'RST': '\033[0m',
+    'LMGE': '\033[95m',
+    'CMNT': '\033[37m\033[3m'
+}
 # simple usage:
 def usage():
     print("Usage: ./sitemap-scraper.py --scrape (url)")
@@ -24,7 +40,7 @@ def httpget(url,domain):
         error(f"Fetching URL {url} failed: {e}")
 # display errors:
 def error(msg):
-    print(f"ERROR: {msg}")
+    print(f"{color['RED']} ERROR: {msg}{color['RST']}")
 # check arguments:
 if len(sys.argv) == 1:
     usage()
@@ -51,6 +67,10 @@ else:
                 for site in tags: # loop over the "loc" tags and print the text only:
                     sites.append(site.text) # add the site to oour list
                     file.write(site.text+"\n") # Write the site to the file.
+                    for inter in interesting:
+                        if re.search(f"/{inter}",site.text):
+                            url = re.sub(inter,color['RED']+inter+color['LMGE'],site.text)
+                            print(f"{color['GRN']}{color['CMNT']} Interesting:{color['LMGE']} {url}{color['RST']}")
                 file.close()
                 print(f"[i] Log file written as {filename} ({len(sites)} URLs discovered)")
                 if len(sys.argv)==3:
@@ -64,6 +84,7 @@ else:
                             httpget(url,domain)
                         print("[i] Scraping completed.                             ")
         except Exception as e: # let the user know what happened:
-            error(f"Something went wrong: {e}")
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            error(f"Something went wrong: {e} {exc_tb.tb_lineno}")
     else: # Not a .xml file and URL:
-        error(f"Malformed URL: {url}")
+        error(f"Malformed XML URL: {sys.argv[1]}")
