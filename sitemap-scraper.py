@@ -14,7 +14,7 @@ interesting = ['backup','bak','api','token','key','secret','credentials','mfa','
     'passw','usern','azure','ldap','robots','temp','old','sensitive','priv','dev','test',
     'staging','donot','server-status','archive','archiva','filesystem','files','camera',
     'security','footage','secure','topsec','sql','database','mariadb','postgre','sqlite','prod','multifactor',
-    'authori','roles','smb','share','activedir','aws','s3']
+    'authori','roles','smb','share','activedir','aws','s3','about.php','internal','intranet']
 # colors obj:
 color = {
     'RED': fg(197),
