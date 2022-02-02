@@ -29,6 +29,7 @@ def error(msg):
 if len(sys.argv) == 1:
     usage()
 else:
+    url = ""
     if len(sys.argv)==2:
         url = sys.argv[1]
     else: # determine the URL
