@@ -18,7 +18,7 @@ def httpget(url,domain):
     try:
         req = requests.get(url) # get the URL
         file = open(domain+"/"+filename,"w") # open the file for writing in new directory
-        file.write(req.text) # write the response.
+        file.write(req.text+"\n") # write the response.
         file.close() # close it up.
     except Exception as e:
         error(f"Fetching URL {url} failed: {e}")
@@ -45,9 +45,13 @@ else:
             else:
                 soup = BeautifulSoup(req.text,features="lxml") # send text of HTTP response into BS
                 tags = soup.find_all("loc") # Pull out the "loc" tags only
+                filename = domain+"-sitemap.xml-urls.txt"
+                file = open(filename,"a")
                 for site in tags: # loop over the "loc" tags and print the text only:
-                    sites.append(site.text)
-                    print(site.text) # Just the text.
+                    sites.append(site.text) # add the site to oour list
+                    file.write(site.text+"\n") # Write the site to the file.
+                file.close()
+                print(f"[i] Log file written as {filename} ({len(sites)} URLs discovered)")
                 if len(sys.argv)==3:
                     if sys.argv[1]=="--scrape" or sys.argv[2]=="--scrape":
                         os.mkdir(domain) # create a place to put them
@@ -57,6 +61,7 @@ else:
                             percentdone = round((i/len(sites))*100,2)
                             print(f"Scraping sites: {percentdone}% {i}/{len(sites)} ...                        \r",end="")
                             httpget(url,domain)
+                        print("[i] Scraping completed.                             ")
         except Exception as e: # let the user know what happened:
             error(f"Something went wrong: {e}")
     else: # Not a .xml file and URL:
