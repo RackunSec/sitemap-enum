@@ -22,7 +22,8 @@ color = {
     'YLL': fg(226),
     'RST': '\033[0m',
     'LMGE': '\033[95m',
-    'CMNT': '\033[37m\033[3m'
+    'CMNT': '\033[37m\033[3m',
+    'OKGRN': f"\033[3m{fg(46)} ✔ "
 }
 # simple usage:
 def usage():
@@ -72,7 +73,7 @@ else:
                             url = re.sub(inter,color['RED']+inter+color['LMGE'],site.text)
                             print(f"{color['GRN']}{color['CMNT']} Interesting:{color['LMGE']} {url}{color['RST']}")
                 file.close()
-                print(f"[i] Log file written as {filename} ({len(sites)} URLs discovered)")
+                print(f"{color['OKGRN']} Log file written as {color['RED']}\"{filename}\"{color['LMGE']} ({color['RED']}{len(sites)}{color['RST']} URLs discovered{color['LMGE']}){color['RST']}")
                 if len(sys.argv)==3:
                     if sys.argv[1]=="--scrape" or sys.argv[2]=="--scrape":
                         os.mkdir(domain) # create a place to put them
