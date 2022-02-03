@@ -116,6 +116,9 @@ def main(args):
                             if re.search(f"[/\._-]{inter}",site.text,re.IGNORECASE):
                                 url = re.sub(inter,color.RED+inter+color.LMGE,site.text)
                                 print(f"{color.GRN}{color.CMNT} Interesting:{color.LMGE} {url}{color.RST}")
+                        if(re.search(".*sitemap.*\.xml$",site.text)):
+                            url = re.sub("(sitemap.*\.xml)",rf"{color.RED}\1{color.CMNT}",site.text)
+                            print(f"{color.CMNT}{color.RED}-->{color.CMNT} Nested Sitemap: {url}{color.RST}")
                     file.close()
                     print(f"{color.OKGRN} Log file written as {color.RED}\"{filename}\"{color.LMGE} ({color.RED}{len(sites)}{color.RST} URLs discovered{color.LMGE}){color.RST}")
                     if len(sys.argv)==3:
