@@ -82,6 +82,13 @@ def usage(color):
     print(f"{color.RED}[?] Usage: ./sitemap-enum.py --scrape (url){color.RST}\n")
     sys.exit(1)
 
+def check4interesting(url,color):
+    interesting = Interesting() # for interesting.words[]
+    for inter in interesting.words:
+        if re.search(f"[/\._-]{inter}",url,re.IGNORECASE):
+            url = re.sub(inter,color.RED+inter+color.LMGE,url)
+            print(f"{color.GRN}{color.CMNT} Interesting:{color.LMGE} {url}{color.RST}")
+
 def main(args):
     color = Color()
     # check arguments:
@@ -90,7 +97,7 @@ def main(args):
     else:
         error = Error(color)
         http = Http(error)
-        interesting = Interesting() # for interesting.words[]
+
         if len(args)==2:
             url = args[1]
         else: # determine the URL
@@ -101,6 +108,7 @@ def main(args):
             try:
                 domain = re.sub('^https?:..([^/]+).*',r'\1',url)
                 sites = [] # store the sites
+                sitemaps = [] # store nested sitemaps
                 req = requests.get(url) # make HTTP request for sitemap
                 if req.status_code!=200: # if not found (I think except would pick this up too):
                     error.say(f"URL not accessible. Got response code: {req.status_code}")
@@ -112,17 +120,40 @@ def main(args):
                     for site in tags: # loop over the "loc" tags and print the text only:
                         sites.append(site.text) # add the site to oour list
                         file.write(site.text+"\n") # Write the site to the file.
-                        for inter in interesting.words:
-                            if re.search(f"[/\._-]{inter}",site.text,re.IGNORECASE):
-                                url = re.sub(inter,color.RED+inter+color.LMGE,site.text)
-                                print(f"{color.GRN}{color.CMNT} Interesting:{color.LMGE} {url}{color.RST}")
-                        if(re.search(".*sitemap.*\.xml$",site.text)):
+                        check4interesting(site.text,color) # check 4 interesting words
+                        # List nested sitemaps:
+                        if(re.search("sitemap.*\.xml",site.text)):
+                            sitemaps.append(site.text) # add the nested sitemap to crwal later.
                             url = re.sub("(sitemap.*\.xml)",rf"{color.RED}\1{color.CMNT}",site.text)
                             print(f"{color.CMNT}{color.RED}-->{color.CMNT} Nested Sitemap: {url}{color.RST}")
                     file.close()
+                    # Crawl all nested sitemaps:
+                    if len(sitemaps)>0:
+                        ans = input(f"{color.LMGE}[{color.RED}?{color.LMGE}]{color.RST} Would you like me to crawl nested sitemaps? {color.LMGE}({color.RED}{len(sitemaps)}{color.LMGE}) [{color.RED}y/n{color.LMGE}]? {color.RST}")
+                        if ans == "y":
+                            # Crate a space to log these nested sitemaps:
+                            if not os.path.isdir(domain):
+                                os.mkdir(domain)
+                            if not os.path.isdir(domain+"/nested-sitemaps"):
+                                os.mkdir(domain+"/nested-sitemaps") # make the directory
+                            for sitemap in sitemaps:
+                                print(f"{color.OKGRN}{color.RST} Crawling: {color.RED}{sitemap}{color.RST}")
+                                check4interesting(sitemap,color)
+                                file = re.sub("[?=&]","-",sitemap)
+                                file = re.sub("^.*(sitemap.*\.xml)",r"\1",file)
+                                fh = open(domain+"/nested-sitemaps/"+file,"w") # open the file handler for logging
+                                req = requests.get(sitemap) # get the text of the nested sitemap
+                                soup = BeautifulSoup(req.text,features="lxml") # parse the XML
+                                tags = soup.find_all("loc")
+                                for site in tags:
+                                    check4interesting(site.text,color)
+                                    fh.write(site.text+"\n")
+                                fh.close() # close up the file.
+
+
                     print(f"{color.OKGRN} Log file written as {color.RED}\"{filename}\"{color.LMGE} ({color.RED}{len(sites)}{color.RST} URLs discovered{color.LMGE}){color.RST}")
-                    if len(sys.argv)==3:
-                        if sys.argv[1]=="--scrape" or sys.argv[2]=="--scrape":
+                    if len(args)==3:
+                        if args[1]=="--scrape" or args[2]=="--scrape":
                             if not os.path.isdir(domain): # check if it exists
                                 os.mkdir(domain) # create a place to put them
                             i = 0
@@ -136,7 +167,7 @@ def main(args):
                 exc_type, exc_obj, exc_tb = sys.exc_info()
                 error.say(f"Something went wrong: {e} {exc_tb.tb_lineno}")
         else: # Not a .xml file and URL:
-            error.say(f"Malformed XML URL: {sys.argv[1]}")
+            error.say(f"Malformed XML URL: {args[1]}")
 
 if __name__ == "__main__": # Our main function.
     main(sys.argv)
