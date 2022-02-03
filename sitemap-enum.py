@@ -16,7 +16,7 @@ class Interesting:
         'staging','donot','server-status','archive','archiva','filesystem','files','camera',
         'security','footage','adfs','topsec','sql','database','mariadb','postgre','sqlite','prod','multifactor',
         'authori','roles','smb','share','activedir','aws','s3','about.php','internal','intranet',
-        'crypto','stash','logs','cache','session']
+        'crypto','stash','logs','cache','session','account']
 # colors obj:
 class Color:
     RED=fg(197)
@@ -69,7 +69,17 @@ class Http():
 
 # simple usage:
 def usage(color):
-    print(f"{color.RED}[?] Usage: ./sitemap-scraper.py --scrape (url){color.RST}")
+    print(f"""{color.RED}
+
+     oooooooo8 oooo     oooo ooooooooooo
+    888         8888o   888   888    88
+     888oooooo  88 888o8 88   888ooo8
+            888 88  888  88   888    oo
+    o88oooo888 o88o  8  o88o o888ooo8888
+    {color.YLL}
+    Sitemap Enumerator{color.RST}
+    """)
+    print(f"{color.RED}[?] Usage: ./sitemap-enum.py --scrape (url){color.RST}\n")
     sys.exit(1)
 
 def main(args):
