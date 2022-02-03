@@ -113,7 +113,7 @@ def main(args):
                         sites.append(site.text) # add the site to oour list
                         file.write(site.text+"\n") # Write the site to the file.
                         for inter in interesting.words:
-                            if re.search(f"/{inter}",site.text,re.IGNORECASE):
+                            if re.search(f"[/\._-]{inter}",site.text,re.IGNORECASE):
                                 url = re.sub(inter,color.RED+inter+color.LMGE,site.text)
                                 print(f"{color.GRN}{color.CMNT} Interesting:{color.LMGE} {url}{color.RST}")
                     file.close()
