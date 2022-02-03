@@ -124,31 +124,36 @@ def main(args):
                         # List nested sitemaps:
                         if(re.search("sitemap.*\.xml",site.text)):
                             sitemaps.append(site.text) # add the nested sitemap to crwal later.
-                            url = re.sub("(sitemap.*\.xml)",rf"{color.RED}\1{color.CMNT}",site.text)
-                            print(f"{color.CMNT}{color.RED}-->{color.CMNT} Nested Sitemap: {url}{color.RST}")
+                            url2 = re.sub("(sitemap.*\.xml)",rf"{color.RED}\1{color.CMNT}",site.text)
+                            print(f"{color.CMNT}{color.RED}-->{color.CMNT} Nested Sitemap: {url2}{color.RST}")
                     file.close()
                     # Crawl all nested sitemaps:
                     if len(sitemaps)>0:
-                        ans = input(f"{color.LMGE}[{color.RED}?{color.LMGE}]{color.RST} Would you like me to crawl nested sitemaps? {color.LMGE}({color.RED}{len(sitemaps)}{color.LMGE}) [{color.RED}y/n{color.LMGE}]? {color.RST}")
-                        if ans == "y":
-                            # Crate a space to log these nested sitemaps:
-                            if not os.path.isdir(domain):
-                                os.mkdir(domain)
-                            if not os.path.isdir(domain+"/nested-sitemaps"):
-                                os.mkdir(domain+"/nested-sitemaps") # make the directory
-                            for sitemap in sitemaps:
-                                print(f"{color.OKGRN}{color.RST} Crawling: {color.RED}{sitemap}{color.RST}")
-                                check4interesting(sitemap,color)
-                                file = re.sub("[?=&]","-",sitemap)
-                                file = re.sub("^.*(sitemap.*\.xml)",r"\1",file)
-                                fh = open(domain+"/nested-sitemaps/"+file,"w") # open the file handler for logging
-                                req = requests.get(sitemap) # get the text of the nested sitemap
-                                soup = BeautifulSoup(req.text,features="lxml") # parse the XML
-                                tags = soup.find_all("loc")
-                                for site in tags:
-                                    check4interesting(site.text,color)
-                                    fh.write(site.text+"\n")
-                                fh.close() # close up the file.
+                        if len(sitemaps)==1:
+                            if sitemaps[0]==url:
+                                pass
+                        else:
+                            print(f"url: {url} sitemaps[0]: {sitemaps[0]}")
+                            ans = input(f"{color.LMGE}[{color.RED}?{color.LMGE}]{color.RST} Would you like me to crawl nested sitemaps? {color.LMGE}({color.RED}{len(sitemaps)}{color.LMGE}) [{color.RED}y/n{color.LMGE}]? {color.RST}")
+                            if ans == "y":
+                                # Crate a space to log these nested sitemaps:
+                                if not os.path.isdir(domain):
+                                    os.mkdir(domain)
+                                if not os.path.isdir(domain+"/nested-sitemaps"):
+                                    os.mkdir(domain+"/nested-sitemaps") # make the directory
+                                for sitemap in sitemaps:
+                                    print(f"{color.OKGRN}{color.RST} Crawling: {color.RED}{sitemap}{color.RST}")
+                                    check4interesting(sitemap,color)
+                                    file = re.sub("[?=&]","-",sitemap)
+                                    file = re.sub("^.*(sitemap.*\.xml)",r"\1",file)
+                                    fh = open(domain+"/nested-sitemaps/"+file,"w") # open the file handler for logging
+                                    req = requests.get(sitemap) # get the text of the nested sitemap
+                                    soup = BeautifulSoup(req.text,features="lxml") # parse the XML
+                                    tags = soup.find_all("loc")
+                                    for site in tags:
+                                        check4interesting(site.text,color)
+                                        fh.write(site.text+"\n")
+                                    fh.close() # close up the file.
 
 
                     print(f"{color.OKGRN} Log file written as {color.RED}\"{filename}\"{color.LMGE} ({color.RED}{len(sites)}{color.RST} URLs discovered{color.LMGE}){color.RST}")
