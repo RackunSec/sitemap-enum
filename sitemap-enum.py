@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-# Sitemap-Scraper - Enumeration Tool.
-# Scrape sitemap.xml for URLs and store the source code of each.
-#
+# Sitemap-Enum - Enumeration Tool.
+# Crawl and scrape sitemap.xml for URLs and store the source code of each.
 # 2022 Douglas Berdeaux
+#
 import requests # make http requests
 import sys # get args from user
 import re # matching
@@ -13,7 +13,7 @@ from sty import fg # cool colors!
 interesting = ['backup','bak','api','token','key','secret','credentials','mfa','config',
     'passw','usern','azure','ldap','robots','temp','old','sensitive','priv','dev','test',
     'staging','donot','server-status','archive','archiva','filesystem','files','camera',
-    'security','footage','secure','topsec','sql','database','mariadb','postgre','sqlite','prod','multifactor',
+    'security','footage','adfs','topsec','sql','database','mariadb','postgre','sqlite','prod','multifactor',
     'authori','roles','smb','share','activedir','aws','s3','about.php','internal','intranet']
 # colors obj:
 color = {
