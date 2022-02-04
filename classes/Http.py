@@ -13,7 +13,7 @@ class Http():
         'staging','donot','server-status','archive','archiva','filesystem','files','camera',
         'security','footage','adfs','topsec','sql','database','mariadb','postgre','sqlite','prod','multifactor',
         'authori','roles','smb','share','activedir','aws','s3','about.php','internal','intranet',
-        'crypto','stash','logs','cache','session','account']
+        'crypto','stash','logs','cache','session','account','shell','pwn','access']
 
     # This returns an object that can be used for BeautifulSoup:
     def getxml(self,url):
