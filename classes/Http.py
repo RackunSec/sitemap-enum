@@ -46,25 +46,31 @@ class Http():
                     if sitemaps[0]==url:
                         pass
                 else:
-                    print(sitemaps)
                     ans = input(f"{self.style.ques()} Would you like me to crawl nested sitemaps? {self.style.LMGE}({self.style.RED}{len(sitemaps)}{self.style.LMGE}) [{self.style.RED}y/n{self.style.LMGE}]? {self.style.RST}")
                     if ans == "y":
                         if not os.path.isdir(domain+"/nested-sitemaps"):
                             os.mkdir(domain+"/nested-sitemaps") # make the sub directory.
                         for sitemap in sitemaps:
+                            if(sitemap==url):
+                                pass
                             self.style.ok(f"Crawling: {self.style.RED}{sitemap}{self.style.RST}")
-                            self.getxml(sitemap) # grab the sitemap response object
-                            file = re.sub("[?=&]","-",sitemap) # create a filename to store it.
-                            file = re.sub("^.*(sitemap.*\.xml)",r"\1",file)
-                            fh = open(domain+"/nested-sitemaps/"+file,"w") # open the file handler for logging
-                            self.getxml(sitemap) # get the text of the nested sitemap
-                            soup = BeautifulSoup(req.text,features="lxml") # parse the XML
-                            tags = soup.find_all("loc")
-                            for site in tags:
-                                self.check4interesting(site.text)
-                                fh.write(site.text+"\n")
-                            fh.close() # close up the file.
-            return sites
+                            #self.getxml(sitemap) # grab the sitemap response object
+                            try:
+                                req = requests.get(sitemap,headers=self.headers)
+                                file = re.sub("[?=&]","-",sitemap) # create a filename to store it.
+                                file = domain+"/nested-sitemaps/"+re.sub("^.*(sitemap.*\.xml)",r"\1",file)
+                                fh = open(file,"w") # open the file handler for logging
+                                self.getxml(sitemap) # get the text of the nested sitemap
+                                soup = BeautifulSoup(req.text,features="lxml") # parse the XML
+                                tags = soup.find_all("loc")
+                                for site in tags:
+                                    self.check4interesting(site.text)
+                                    fh.write(site.text+"\n")
+                                fh.close() # close up the file.
+                                self.style.ok(f"Log file written as {file}")
+                            except Exception as e:
+                                self.style.fail(f"Fetching URL {sitemap} failed: {e}")
+            return sites # This returns the list for the "--scrape" functionality.
         except Exception as e:
             self.style.fail(f"Fetching URL {url} failed: {e}")
 
