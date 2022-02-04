@@ -46,7 +46,7 @@ class Http():
                     if sitemaps[0]==url:
                         pass
                 else:
-                    ans = input(f"{style.ques()} Would you like me to crawl nested sitemaps? {self.style.LMGE}({self.style.RED}{len(sitemaps)}{self.style.LMGE}) [{self.style.RED}y/n{self.style.LMGE}]? {self.style.RST}")
+                    ans = input(f"{self.style.ques()} Would you like me to crawl nested sitemaps? {self.style.LMGE}({self.style.RED}{len(sitemaps)}{self.style.LMGE}) [{self.style.RED}y/n{self.style.LMGE}]? {self.style.RST}")
                     if ans == "y":
                         for sitemap in sitemaps:
                             self.style.ok(f"Crawling: {self.style.RED}{sitemap}{self.style.RST}")
