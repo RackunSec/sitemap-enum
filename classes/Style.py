@@ -20,7 +20,6 @@ class Style:
     def banner(self): # Place ASCII art and app title:
         print(f"""
     {self.RED}
-
      oooooooo8 oooo     oooo ooooooooooo
     888         8888o   888   888    88
      888oooooo  88 888o8 88   888ooo8
@@ -33,4 +32,3 @@ class Style:
     def usage(self):
         self.banner()
         print(f"{self.RED}[?] Usage: ./sitemap-enum.py (--scrape) (url){self.RST}\n")
-
