@@ -6,7 +6,7 @@ import os # for directory creation/path stuff
 class Http():
     # Initialization:
     def __init__(self):
-        self.color = Color()
+        self.style = Style()
         self.headers = {'User-Agent':'Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0'}
         self.interesting = ['backup','bak','api','token','key','secret','credentials','mfa','config',
         'passw','usern','azure','ldap','robots','temp','old','sensitive','priv','dev','test',
@@ -58,7 +58,7 @@ class Http():
                             soup = BeautifulSoup(req.text,features="lxml") # parse the XML
                             tags = soup.find_all("loc")
                             for site in tags:
-                                http.check4interesting(site.text,color)
+                                http.check4interesting(site.text)
                                 fh.write(site.text+"\n")
                             fh.close() # close up the file.
             return sites
