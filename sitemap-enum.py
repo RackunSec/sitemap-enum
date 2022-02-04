@@ -13,16 +13,7 @@ from classes.Http import Http
 
 # simple usage:
 def usage(color):
-    print(f"""{color.RED}
-
-     oooooooo8 oooo     oooo ooooooooooo
-    888         8888o   888   888    88
-     888oooooo  88 888o8 88   888ooo8
-            888 88  888  88   888    oo
-    o88oooo888 o88o  8  o88o o888ooo8888
-    {color.YLL}
-    Sitemap Enumerator{color.RST}
-    """)
+    color.banner()
     print(f"{color.RED}[?] Usage: ./sitemap-enum.py (--scrape) (url){color.RST}\n")
     sys.exit(1)
 
