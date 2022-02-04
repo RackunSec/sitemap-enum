@@ -1,5 +1,5 @@
 from sty import fg
-class Color:
+class Style:
     def __init__(self):
         self.RED=fg(197) # pretty red
         self.YLL=fg(226) # pretty yellow
@@ -29,3 +29,8 @@ class Color:
     {self.YLL}
     Sitemap Enumerator{self.RST}
         """)
+
+    def usage(self):
+        self.banner()
+        print(f"{self.RED}[?] Usage: ./sitemap-enum.py (--scrape) (url){self.RST}\n")
+
