@@ -8,11 +8,11 @@ class Http():
     def __init__(self):
         self.style = Style()
         self.headers = {'User-Agent':'Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0'}
-        self.interesting = ['backup','bak','api','token','key','secret','credentials','mfa','config',
+        self.interesting = ['backup','bak','api','token','secret','credentials','mfa','config',
         'passw','usern','azure','ldap','robots','temp','old','sensitive','priv','dev','test',
-        'staging','donot','server-status','archive','archiva','filesystem','files','camera',
+        'staging','staged','donot','server-status','archive','archiva','filesystem','files','camera',
         'security','footage','adfs','topsec','sql','database','mariadb','postgre','sqlite','prod','multifactor',
-        'authori','roles','smb','share','activedir','aws','s3','about.php','internal','intranet',
+        'authoriz','roles','smb','share','activedir','aws','s3','about.php','internal','intranet',
         'crypto','stash','logs','cache','session','account','shell','pwn','access']
 
     # This returns an object that can be used for BeautifulSoup:
