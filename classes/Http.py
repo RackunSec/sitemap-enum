@@ -1,5 +1,5 @@
 import requests # make http requests
-from classes.Color import Color
+from classes.Style import Style
 from bs4 import BeautifulSoup # for parsing the XML
 import re
 import os # for directory creation/path stuff
@@ -35,21 +35,21 @@ class Http():
                 self.check4interesting(site.text) # check 4 interesting words
                 # List nested sitemaps:
                 if(re.search("sitemap.*\.xml",site.text)):
-                    url2 = re.sub("(sitemap.*\.xml)",rf"{self.color.RED}\1{self.color.CMNT}",site.text)
-                    print(f"{self.color.arrow()} Nested Sitemap: {url2}{self.color.RST}")
+                    url2 = re.sub("(sitemap.*\.xml)",rf"{self.style.RED}\1{self.style.CMNT}",site.text)
+                    print(f"{self.style.arrow()} Nested Sitemap: {url2}{self.style.RST}")
                     sitemaps.append(site.txt)
             fh.close() # close the file.
-            self.color.ok(f"Log file written as {self.color.RED}\"{file}\"{self.color.LMGE} ({self.color.RED}{len(tags)}{self.color.RST} URLs discovered{self.color.LMGE}){self.color.RST}")
+            self.style.ok(f"Log file written as {self.style.RED}\"{file}\"{self.style.LMGE} ({self.style.RED}{len(tags)}{self.style.RST} URLs discovered{self.style.LMGE}){self.style.RST}")
             # Crawl all nested sitemaps:
             if len(sitemaps)>0:
                 if len(sitemaps)==1: # This is to check if only 1 sitemap and it's itself.
                     if sitemaps[0]==url:
                         pass
                 else:
-                    ans = input(f"{color.ques()} Would you like me to crawl nested sitemaps? {self.color.LMGE}({self.color.RED}{len(sitemaps)}{self.color.LMGE}) [{self.color.RED}y/n{self.color.LMGE}]? {self.color.RST}")
+                    ans = input(f"{style.ques()} Would you like me to crawl nested sitemaps? {self.style.LMGE}({self.style.RED}{len(sitemaps)}{self.style.LMGE}) [{self.style.RED}y/n{self.style.LMGE}]? {self.style.RST}")
                     if ans == "y":
                         for sitemap in sitemaps:
-                            self.color.ok(f"Crawling: {self.color.RED}{sitemap}{self.color.RST}")
+                            self.style.ok(f"Crawling: {self.style.RED}{sitemap}{self.style.RST}")
                             http.getxml(sitemap) # grab the sitemap response object
                             file = re.sub("[?=&]","-",sitemap) # create a filename to store it.
                             file = re.sub("^.*(sitemap.*\.xml)",r"\1",file)
@@ -84,5 +84,5 @@ class Http():
     def check4interesting(self,url):
         for inter in self.interesting:
             if re.search(f"[/\._-]{inter}",url,re.IGNORECASE):
-                url = re.sub(inter,self.color.RED+inter+self.color.LMGE,url)
-                print(f"{self.color.info()}{self.color.CMNT} Interesting:{self.color.LMGE} {url}{self.color.RST}")
+                url = re.sub(inter,self.style.RED+inter+self.style.LMGE,url)
+                print(f"{self.style.info()}{self.style.CMNT} Interesting:{self.style.LMGE} {url}{self.style.RST}")
