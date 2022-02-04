@@ -1,5 +1,4 @@
 import requests # make http requests
-from classes.Error import Error
 from classes.Color import Color
 from bs4 import BeautifulSoup # for parsing the XML
 import re
@@ -8,7 +7,6 @@ class Http():
     # Initialization:
     def __init__(self):
         self.color = Color()
-        self.error = Error() # todo: add more headers here:
         self.headers = {'User-Agent':'Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0'}
         self.interesting = ['backup','bak','api','token','key','secret','credentials','mfa','config',
         'passw','usern','azure','ldap','robots','temp','old','sensitive','priv','dev','test',
@@ -38,20 +36,20 @@ class Http():
                 # List nested sitemaps:
                 if(re.search("sitemap.*\.xml",site.text)):
                     url2 = re.sub("(sitemap.*\.xml)",rf"{self.color.RED}\1{self.color.CMNT}",site.text)
-                    print(f"{self.color.CMNT}{self.color.RED}-->{self.color.CMNT} Nested Sitemap: {url2}{self.color.RST}")
+                    print(f"{self.color.arrow()} Nested Sitemap: {url2}{self.color.RST}")
                     sitemaps.append(site.txt)
             fh.close() # close the file.
-            print(f"{self.color.OKGRN} Log file written as {self.color.RED}\"{file}\"{self.color.LMGE} ({self.color.RED}{len(tags)}{self.color.RST} URLs discovered{self.color.LMGE}){self.color.RST}")
+            self.color.ok(f"Log file written as {self.color.RED}\"{file}\"{self.color.LMGE} ({self.color.RED}{len(tags)}{self.color.RST} URLs discovered{self.color.LMGE}){self.color.RST}")
             # Crawl all nested sitemaps:
             if len(sitemaps)>0:
                 if len(sitemaps)==1: # This is to check if only 1 sitemap and it's itself.
                     if sitemaps[0]==url:
                         pass
                 else:
-                    ans = input(f"{self.color.LMGE}[{self.color.RED}?{self.color.LMGE}]{self.color.RST} Would you like me to crawl nested sitemaps? {self.color.LMGE}({self.color.RED}{len(sitemaps)}{self.color.LMGE}) [{self.color.RED}y/n{self.color.LMGE}]? {self.color.RST}")
+                    ans = input(f"{color.ques()} Would you like me to crawl nested sitemaps? {self.color.LMGE}({self.color.RED}{len(sitemaps)}{self.color.LMGE}) [{self.color.RED}y/n{self.color.LMGE}]? {self.color.RST}")
                     if ans == "y":
                         for sitemap in sitemaps:
-                            print(f"{self.color.OKGRN}{self.color.RST} Crawling: {self.color.RED}{sitemap}{self.color.RST}")
+                            self.color.ok(f"Crawling: {self.color.RED}{sitemap}{self.color.RST}")
                             http.getxml(sitemap) # grab the sitemap response object
                             file = re.sub("[?=&]","-",sitemap) # create a filename to store it.
                             file = re.sub("^.*(sitemap.*\.xml)",r"\1",file)
@@ -87,4 +85,4 @@ class Http():
         for inter in self.interesting:
             if re.search(f"[/\._-]{inter}",url,re.IGNORECASE):
                 url = re.sub(inter,self.color.RED+inter+self.color.LMGE,url)
-                print(f"{self.color.GRN}{self.color.CMNT} Interesting:{self.color.LMGE} {url}{self.color.RST}")
+                print(f"{self.color.info()}{self.color.CMNT} Interesting:{self.color.LMGE} {url}{self.color.RST}")
