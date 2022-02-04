@@ -10,4 +10,15 @@ This script does require some Python libraries. You can install them with the fo
 python3 -m pip install -r requirements.txt
 ```
 ## Usage
-To use the tool, simple run it without any arguments to view the syntax.
+### General
+To get (and log) the sitemap contents, use the following syntax:
+```
+./sitemap-enum.py (sitemap url)
+```
+You will be asked to scrape nested sitemaps (if discovered).
+#### Scraping
+To scrape each individual sitemap url you can either add the `scrape` command,
+```
+./sitemap-enum.py (sitemap url) --scrape
+```
+or import the `Http.py` module and pass your URL(s) into the `getxml()` method
