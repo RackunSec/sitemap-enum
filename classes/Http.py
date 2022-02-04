@@ -50,20 +50,20 @@ class Http():
                     if ans == "y":
                         for sitemap in sitemaps:
                             self.style.ok(f"Crawling: {self.style.RED}{sitemap}{self.style.RST}")
-                            http.getxml(sitemap) # grab the sitemap response object
+                            self.getxml(sitemap) # grab the sitemap response object
                             file = re.sub("[?=&]","-",sitemap) # create a filename to store it.
                             file = re.sub("^.*(sitemap.*\.xml)",r"\1",file)
                             fh = open(domain+"/nested-sitemaps/"+file,"w") # open the file handler for logging
-                            http.getxml(sitemap) # get the text of the nested sitemap
+                            self.getxml(sitemap) # get the text of the nested sitemap
                             soup = BeautifulSoup(req.text,features="lxml") # parse the XML
                             tags = soup.find_all("loc")
                             for site in tags:
-                                http.check4interesting(site.text)
+                                self.check4interesting(site.text)
                                 fh.write(site.text+"\n")
                             fh.close() # close up the file.
             return sites
         except Exception as e:
-            self.error(f"Fetching URL {url} failed: {e}")
+            self.style.fail(f"Fetching URL {url} failed: {e}")
 
     # Scraping actual source code of each page:
     def getCode(self,url):
@@ -77,7 +77,7 @@ class Http():
             fh.close() # close up the file handle.
             return
         except Exception as e:
-            self.error(f"Fetching URL {url} failed: {e}")
+            self.style.fail(f"Fetching URL {url} failed: {e}")
 
 
     # Check the URLs for interetsing terms:
