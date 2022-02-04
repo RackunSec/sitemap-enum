@@ -8,20 +8,14 @@ import sys # get args from user
 import re # matching
 import os # for file creation
 from bs4 import BeautifulSoup # for XML parsing
-from classes.Color import Color
+from classes.Style import Style
 from classes.Http import Http
 
-# simple usage:
-def usage(color):
-    color.banner()
-    print(f"{color.RED}[?] Usage: ./sitemap-enum.py (--scrape) (url){color.RST}\n")
-    sys.exit(1)
-
 def main(args):
-    color = Color()
+    style = Style()
     # check arguments:
     if len(args) == 1:
-        usage(color)
+        style.usage()
     else:
         # set up variables:
         http = Http()
@@ -42,14 +36,14 @@ def main(args):
                         for url in sites: # loop over all URLs pulled from XML file
                             i=i+1 # token for math below:
                             percentdone = round((i/len(sites))*100,2)
-                            print(f"{color.CMNT}Scraping sites:{color.RED} {percentdone}% {color.LMGE}{i}{color.CMNT}/{color.LMGE}{len(sites)}{color.RST} ...                        \r",end="")
+                            print(f"{style.CMNT}Scraping sites:{style.RED} {percentdone}% {style.LMGE}{i}{style.CMNT}/{style.LMGE}{len(sites)}{style.RST} ...                        \r",end="")
                             http.getCode(url)
-                        color.ok(f"Scraping completed.                             {color.RST}")
+                        style.ok(f"Scraping completed.                             {style.RST}")
             except Exception as e: # let the user know what happened:
                 exc_type, exc_obj, exc_tb = sys.exc_info()
-                color.fail(f"Something went wrong: {e} {exc_tb.tb_lineno}")
+                style.fail(f"Something went wrong: {e} {exc_tb.tb_lineno}")
         else: # Not a .xml file and URL:
-            color.fail(f"Malformed XML URL: {args[1]}")
+            style.fail(f"Malformed XML URL: {args[1]}")
 
 if __name__ == "__main__": # Our main function.
     main(sys.argv)
