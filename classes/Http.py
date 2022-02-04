@@ -37,7 +37,7 @@ class Http():
                 if(re.search("sitemap.*\.xml",site.text)):
                     url2 = re.sub("(sitemap.*\.xml)",rf"{self.style.RED}\1{self.style.CMNT}",site.text)
                     print(f"{self.style.arrow()} Nested Sitemap: {url2}{self.style.RST}")
-                    sitemaps.append(site.txt)
+                    sitemaps.append(site.text)
             fh.close() # close the file.
             self.style.ok(f"Log file written as {self.style.RED}\"{file}\"{self.style.LMGE} ({self.style.RED}{len(tags)}{self.style.RST} URLs discovered{self.style.LMGE}){self.style.RST}")
             # Crawl all nested sitemaps:
@@ -46,8 +46,11 @@ class Http():
                     if sitemaps[0]==url:
                         pass
                 else:
+                    print(sitemaps)
                     ans = input(f"{self.style.ques()} Would you like me to crawl nested sitemaps? {self.style.LMGE}({self.style.RED}{len(sitemaps)}{self.style.LMGE}) [{self.style.RED}y/n{self.style.LMGE}]? {self.style.RST}")
                     if ans == "y":
+                        if not os.path.isdir(domain+"/nested-sitemaps"):
+                            os.mkdir(domain+"/nested-sitemaps") # make the sub directory.
                         for sitemap in sitemaps:
                             self.style.ok(f"Crawling: {self.style.RED}{sitemap}{self.style.RST}")
                             self.getxml(sitemap) # grab the sitemap response object
