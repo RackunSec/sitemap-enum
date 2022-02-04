@@ -28,20 +28,20 @@ def main(args):
                     url = arg
         # Check URL for correctedness:
         if re.match("^http.*\.xml",url):
-            #try: # scrape the sitemap first:
-            sites = http.getxml(url) # make HTTP request for sitemap
-            if len(args)==3: # scrape each individual link from the sitemap:
-                if args[1]=="--scrape" or args[2]=="--scrape":
-                    i = 0
-                    for url in sites: # loop over all URLs pulled from XML file
-                        i=i+1 # token for math below:
-                        percentdone = round((i/len(sites))*100,2)
-                        print(f"{style.CMNT}Scraping sites:{style.RED} {percentdone}% {style.LMGE}{i}{style.CMNT}/{style.LMGE}{len(sites)}{style.RST} ...                        \r",end="")
-                        http.getCode(url)
-                    style.ok(f"Scraping completed.                             {style.RST}")
-            #except Exception as e: # let the user know what happened:
-            #    exc_type, exc_obj, exc_tb = sys.exc_info()
-            #    style.fail(f"Something went wrong: {e} {exc_tb.tb_lineno}")
+            try: # scrape the sitemap first:
+                sites = http.getxml(url) # make HTTP request for sitemap
+                if len(args)==3: # scrape each individual link from the sitemap:
+                    if args[1]=="--scrape" or args[2]=="--scrape":
+                        i = 0
+                        for url in sites: # loop over all URLs pulled from XML file
+                            i=i+1 # token for math below:
+                            percentdone = round((i/len(sites))*100,2)
+                            print(f"{style.CMNT}Scraping sites:{style.RED} {percentdone}% {style.LMGE}{i}{style.CMNT}/{style.LMGE}{len(sites)}{style.RST} ...                        \r",end="")
+                            http.getCode(url)
+                        style.ok(f"Scraping completed.                             {style.RST}")
+            except Exception as e: # let the user know what happened:
+                exc_type, exc_obj, exc_tb = sys.exc_info()
+                style.fail(f"Something went wrong: {e} {exc_tb.tb_lineno}")
         else: # Not a .xml file and URL:
             style.fail(f"Malformed XML URL: {args[1]}")
 
