@@ -166,7 +166,6 @@ class Http:
         domain = re.sub("https?:..([^/]+).*", r"\1", url)  # grab JUST the domain name
         file = re.sub("^https?:..[^/]+/", "", url)  # remove the protocol prefix
         file = re.sub("/", "-", file)  # chnage all forwardslashes to dashes.
-        print(f"file:{file}")
         file = domain + "/" + re.sub("/", "-", file) + ".txt"
         try:
             req = requests.get(url, headers=self.headers)
