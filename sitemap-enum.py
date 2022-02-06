@@ -32,9 +32,9 @@ def main(args):
             try:  # scrape the sitemap first:
                 sites = http.getxml(url)  # make HTTP request for sitemap
                 if len(args) == 3:  # scrape each individual link from the sitemap:
-                    if "--scrape" in (args[1],args[2]): # "Pythonic"
-                        i = 0
-                        for url in sites:  # loop over all URLs pulled from XML file
+                    if "--scrape" in (args[1],args[2]): # <-- Pythonic: create Tuple for comparisons
+                        for i,url in enumerate(sites): # <-- Pythonic: loop over items with index as token
+                            i=i+1 # Can't start with 0.
                             i = i + 1  # token for math below:
                             percentdone = round((i / len(sites)) * 100, 2)
                             print(
