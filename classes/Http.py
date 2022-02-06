@@ -163,7 +163,6 @@ class Http:
 
     # Scraping actual source code of each page:
     def getCode(self, url):
-        print("getcode")
         domain = re.sub("https?:..([^/]+).*", r"\1", url)  # grab JUST the domain name
         file = re.sub("^https?:..[^/]+/", "", url)  # remove the protocol prefix
         file = re.sub("/", "-", file)  # chnage all forwardslashes to dashes.
