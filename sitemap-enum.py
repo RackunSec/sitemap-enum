@@ -34,8 +34,7 @@ def main(args):
                 if len(args) == 3:  # scrape each individual link from the sitemap:
                     if "--scrape" in (args[1],args[2]): # <-- Pythonic: create Tuple for comparisons
                         for i,url in enumerate(sites): # <-- Pythonic: loop over items with index as token
-                            i=i+1 # Can't start with 0.
-                            i = i + 1  # token for math below:
+                            i = i + 1 # Can't start with 0.
                             percentdone = round((i / len(sites)) * 100, 2)
                             print(
                                 f"{style.CMNT}Scraping sites:{style.RED} {percentdone}% {style.LMGE}{i}{style.CMNT}/{style.LMGE}{len(sites)}{style.RST} ...                        \r",
