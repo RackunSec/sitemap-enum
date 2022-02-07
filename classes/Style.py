@@ -11,8 +11,9 @@ class Style:
         self.PPIN=fg(171) # purplish-pink
         self.PPUR=fg(135) # nice purple
         self.PINK=fg(201) # pink color
-        self.NET='🖧'
-        self.FILE=self.PPUR+'🗁'+self.RST
+        self.NET=self.PPUR+' 🖧  '+self.RST # show network icon
+        self.FILE=self.PPUR+' 🗁  '+self.RST # Show file icon
+        self.OK = f"\033[3m{fg(200)}" # OK text color only
 
     ## Print an arrow for indentation:
     def arrow(self): # This is just " --> " but fancyier.
