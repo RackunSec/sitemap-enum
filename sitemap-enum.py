@@ -13,20 +13,20 @@ from classes.Http import Http
 
 
 def main(args):
-    style = Style()
+    style: Style = Style()
     # check arguments:
     if len(args) == 1:
-        style.usage()
+        style.usage("Sitemap Enumerator Tool")
     else:
         # set up variables:
-        http = Http()
+        http: Http = Http()
         # grab the URL:
         if len(args) == 2:
-            url = args[1]
+            url: str = args[1]
         else:  # determine the URL
             for arg in args:
                 if re.match("^http.*\.xml", arg):
-                    url = arg
+                    url: str = arg
         # Check URL for correctedness:
         if re.match("^http.*\.xml", url):
             try:  # scrape the sitemap first:
@@ -34,8 +34,8 @@ def main(args):
                 if len(args) == 3:  # scrape each individual link from the sitemap:
                     if "--scrape" in (args[1],args[2]): # <-- Pythonic: create Tuple for comparisons
                         for i,url in enumerate(sites): # <-- Pythonic: loop over items with index as token
-                            i = i + 1 # Can't start with 0.
-                            percentdone = round((i / len(sites)) * 100, 2)
+                            i = i + 1 # Token can't start with 0.
+                            percentdone: float = round((i / len(sites)) * 100, 2)
                             print(
                                 f"{style.CMNT}Scraping sites:{style.RED} {percentdone}% {style.LMGE}{i}{style.CMNT}/{style.LMGE}{len(sites)}{style.RST} ...                        \r",
                                 end="",
