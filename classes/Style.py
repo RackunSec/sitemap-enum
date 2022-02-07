@@ -33,11 +33,11 @@ class Style:
 
     ## Custom Brackets:
     def brackets(self,msg): # Custom, colored square brackets [ msg ]
-        print(f"{self.PINK}[{self.PPUR}{msg}{self.PINK}]{self.RST}")
+        return f"{self.PINK}[{self.PPUR}{msg}{self.PINK}]{self.RST}"
 
     ## Custom Parenthesis:
     def parens(self,msg):
-        print(f"{self.PINK}({self.PPUR}{msg}{self.PINK}){self.RST}")
+        return f"{self.PINK}({self.PPUR}{msg}{self.PINK}){self.RST}"
 
     ## Print Failures:
     def fail(self,msg): # This handles all failures during runtime
