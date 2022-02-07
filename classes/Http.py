@@ -107,7 +107,7 @@ class Http:
                         )
                         sitemaps.append(site.text)
             self.style.ok(
-                f'Log file written as {self.style.RED}"{file}"{self.style.LMGE} ({self.style.RED}{len(tags)}{self.style.RST} URLs discovered{self.style.LMGE}){self.style.RST}'
+                f'{self.style.FILE}  Log file written as {self.style.RED}"{file}"{self.style.LMGE} ({self.style.RED}{len(tags)}{self.style.RST} URLs discovered{self.style.LMGE}){self.style.RST}'
             )
             # Crawl all nested sitemaps:
             if len(sitemaps) > 0:
@@ -154,7 +154,7 @@ class Http:
                                     for site in tags:
                                         self.check4interesting(site.text)
                                         fh.write(site.text + "\n")
-                                self.style.ok(f"Log file written as {file}")
+                                self.style.ok(f"{self.style.FILE}  Log file written as {file}")
                             except Exception as e:
                                 self.style.fail(f"Fetching URL {sitemap} failed: {e}")
             return sites  # This returns the list for the "--scrape" functionality.
