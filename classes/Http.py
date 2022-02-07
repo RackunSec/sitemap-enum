@@ -106,7 +106,7 @@ class Http:
                             f"{self.style.arrow()} Nested Sitemap: {url2}{self.style.RST}"
                         )
                         sitemaps.append(site.text)
-                print(f'{self.style.FILE}{self.style.CMNT}Log file written: {self.style.RED}"{file}"{self.style.LMGE} ({self.style.RED}{len(tags)}{self.style.RST} URLs discovered{self.style.LMGE}){self.style.RST}')
+                print(f'{self.style.FILE}{self.style.CMNT}Log file written: {self.style.RED}"{file}" {self.style.parens(str(len(sites))+" URLs discovered")}{self.style.RST}')
             # Crawl all nested sitemaps:
             if len(sitemaps) > 0:
                 if (
