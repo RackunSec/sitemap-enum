@@ -27,12 +27,17 @@ class Style:
     def info(self): # This just says "[i]" much fancier:
         return f"{self.PINK}[{self.PPUR}i{self.PINK}]{self.RST}"
 
-    ## Print [ OK ]
+    ## Print [ OK ]:
     def ok(self,msg): # This just says "[ok]" much fancier:
         print(f"\033[3m{fg(200)} ✔ {fg(201)}{msg}{self.RST}")
 
+    ## Custom Brackets:
     def brackets(self,msg): # Custom, colored square brackets [ msg ]
         print(f"{self.PINK}[{self.PPUR}{msg}{self.PINK}]{self.RST}")
+
+    ## Custom Parenthesis:
+    def parens(self,msg):
+        print(f"{self.PINK}({self.PPUR}{msg}{self.PINK}){self.RST}")
 
     ## Print Failures:
     def fail(self,msg): # This handles all failures during runtime
