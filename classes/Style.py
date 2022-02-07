@@ -31,6 +31,9 @@ class Style:
     def ok(self,msg): # This just says "[ok]" much fancier:
         print(f"\033[3m{fg(200)} ✔ {fg(201)}{msg}{self.RST}")
 
+    def brackets(self,msg): # Custom, colored square brackets [ msg ]
+        print(f"{self.PINK}[{self.PPUR}{msg}{self.PINK}]{self.RST}")
+
     ## Print Failures:
     def fail(self,msg): # This handles all failures during runtime
         msg = re.sub("([\[\]])",f"{self.LMGE}\\1{self.RED}",msg) # color the brackets
