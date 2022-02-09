@@ -1,7 +1,8 @@
-from sty import fg
+from sty import fg,bg
 import re # for variable message colors
 class Style:
     def __init__(self):
+        self.BLK='\033[1m'+fg(233) # Black Text -> use with "BG" values below
         self.RED=fg(197) # pretty red
         self.YLL=fg(226) # pretty yellow
         self.GRN=fg(46) # nice green color
@@ -14,6 +15,12 @@ class Style:
         self.NET=self.PPUR+' 🖧  '+self.RST # show network icon
         self.FILE=self.PPUR+' 🗁  '+self.RST # Show file icon
         self.OK = f"\033[3m{fg(200)}" # OK text color only
+        self.BLUE=fg(39)
+        self.ORAN=fg(208)
+        self.BLUEBG='\033[4m'+bg(39)
+        self.ORANBG='\033[4m'+bg(208)
+        self.REDBG='\033[4m'+bg(197)
+        self.YLLBG='\033[4m'+bg(226)
 
     ## Print an arrow for indentation:
     def arrow(self): # This is just " --> " but fancyier.
